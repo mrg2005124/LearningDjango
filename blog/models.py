@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.html import format_html
@@ -35,7 +36,7 @@ class Article(models.Model):
     )
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name = 'articles', verbose_name = "نویسنده")
     title = models.CharField(max_length=200, verbose_name='عنوان')
-    slug = models.SlugField(max_length=100)
+    slug = models.SlugField(max_length=100, verbose_name='ادرس')
     category = models.ManyToManyField(Category,verbose_name='دسته بندی', related_name ='articles')
     description = models.TextField(verbose_name='توضیحات')
     thumbnail = models.ImageField(upload_to="image", verbose_name='تصویر')
@@ -49,6 +50,10 @@ class Article(models.Model):
         ordering = ['-published']
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('account:home')
+
     def jpublished(self):
         return jalali_converter(self.published)
     jpublished.short_description = 'زمان انتشار'
