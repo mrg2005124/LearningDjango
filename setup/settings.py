@@ -44,8 +44,13 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'account.apps.AccountConfig',
     'extension',
-    'widget_tweaks'
+    'widget_tweaks',
+    "crispy_forms",
+    "crispy_bootstrap5",
+    'bootstrap4'
 ]
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,3 +143,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'account:home'
 LOGIN_URL = 'account:login'
+AUTH_USER_MODEL = 'account.User' 
