@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView
+from .mixins import FieldsMixin, FormValidMixin, AuthorAccessMixin
+from django.views.generic import ListView, CreateView, UpdateView
 from blog.models import Article
 # Create your views here.
 class ArticleList(LoginRequiredMixin, ListView):
@@ -12,10 +13,10 @@ class ArticleList(LoginRequiredMixin, ListView):
         else:
             return Article.objects.filter(author = self.request.user)
         
-class ArticleCreate(LoginRequiredMixin, CreateView):
+class ArticleCreate(LoginRequiredMixin, FieldsMixin, FormValidMixin, CreateView):
     model = Article
-    fields = ['author','title','slug',
-              'category','description',
-              'thumbnail','published','status',
-    ]
+    template_name = 'registration/article_create_update.html'
+
+class ArticleUpdate(AuthorAccessMixin, FieldsMixin, FormValidMixin, UpdateView):
+    model = Article
     template_name = 'registration/article_create_update.html'
