@@ -7,51 +7,58 @@
 {% block main %}
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-body table-responsive p-0">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>عنوان</th>
-                            <th>تصویر</th>
-                            <th>موضوع</th>
-                            <th>نویسنده</th>
-                            <th>خلاصه توضیحات</th>
-                            <th>تاریخ انتشار</th>
-                            <th>وضعیت</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for article in object_list %}
-                                <tr>
-                                    <td>
-                                        {% if article.status == 'd' or user.is_superuser %}
-                                            <a href="{% url 'account:article_update' article.pk %}">
+            {% if object_list %}
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>عنوان</th>
+                                <th>تصویر</th>
+                                <th>موضوع</th>
+                                <th>نویسنده</th>
+                                <th>خلاصه توضیحات</th>
+                                <th>تاریخ انتشار</th>
+                                <th>وضعیت</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for article in object_list %}
+                                    <tr>
+                                        <td>
+                                            {% if article.status == 'd' or user.is_superuser %}
+                                                <a href="{% url 'account:article_update' article.pk %}">
+                                                    {{ article.title }}
+                                                </a>
+                                            {% else %}
                                                 {{ article.title }}
-                                            </a>
-                                        {% else %}
-                                            {{ article.title }}
-                                        {% endif %}
-                                    </td>
-                                    <td><img src="{{ article.thumbnail.url }}" width="100"></td>
-                                    <td>{{ article.str_category }}</td>
-                                    <td>{{ article.author.get_full_name }}</td>
-                                    <td>{{ article.description|truncatewords:20 }}</td>
-                                    <td>{{ article.jpublished }}</td>
-                                    <td>
-                                        {% if article.status == 'p' %}
-                                            <span class="badge badge-success" >منتشر شده</span>
-                                            <a href="{% url 'blog:detail' article.slug %}" class="badge badge-primary" target="_blank">نمایش مقاله</a>
-                                        {% else %}
-                                            <span class="badge badge-danger">پیش نویس</span>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>  
-            </div> 
+                                            {% endif %}
+                                        </td>
+                                        <td><img src="{{ article.thumbnail.url }}" width="100"></td>
+                                        <td>{{ article.str_category }}</td>
+                                        <td>{{ article.author.get_full_name }}</td>
+                                        <td>{{ article.description|truncatewords:20 }}</td>
+                                        <td>{{ article.jpublished }}</td>
+                                        <td>
+                                            {% if article.status == 'p' %}
+                                                <span class="badge badge-success" >منتشر شده</span>
+                                                <a href="{% url 'blog:detail' article.slug %}" class="badge badge-primary" target="_blank">نمایش مقاله</a>
+                                            {% else %}
+                                                <span class="badge badge-danger">پیش نویس</span>
+                                            {% endif %}
+                                            {% if user.is_superuser %}
+                                            <a href="{% url 'account:article_delete' article.pk %}" class="badge text-danger">حذف مقاله</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>  
+                </div> 
+            {% else %}
+            <h3>محتوایی برای نمایش وجود ندارد!</h3>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
