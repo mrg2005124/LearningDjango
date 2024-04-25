@@ -32,7 +32,9 @@ class Category(models.Model):
 class Article(models.Model):
     STATUS_CHOICES = (
         ('d','پیش نویس'),
-        ('p','منشتر شده')
+        ('p','منشتر شده'),
+        ('i','در حال بررسی'),
+        ('b','عدم تایید')
     )
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name = 'articles', verbose_name = "نویسنده")
     title = models.CharField(max_length=200, verbose_name='عنوان')
@@ -43,6 +45,7 @@ class Article(models.Model):
     published = models.DateTimeField(default=timezone.now, verbose_name='انتشار')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    is_special = models.BooleanField(default= True, verbose_name='مقاله ویژه')
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
     class Meta:
         verbose_name = "مقاله"

@@ -11,7 +11,7 @@
             <h3 class="card-title mb-0 float-left">افزودن مقاله</h3>
         </div>
         <form method="post" enctype="multipart/form-data">{% csrf_token %}
-            <div class="row">
+            <div class="row" style="padding: 10px;">
                 <div class="col-6">
                     {{form.title|as_crispy_field}}
     
@@ -32,6 +32,7 @@
                 {% if user.is_superuser %}
                 <div class="col-6">
                     {{form.author|as_crispy_field}}
+                    {{form.is_special|as_crispy_field}}
                 </div>
                 <div class="col-6">
                     {{form.status|as_crispy_field}}

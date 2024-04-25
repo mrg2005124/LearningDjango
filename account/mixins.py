@@ -8,13 +8,14 @@ class FieldsMixin():
             self.fields = [
               'author','title','slug',
               'category','description',
-              'thumbnail','published','status',
+              'thumbnail','published',
+              'is_special','status',
             ]
         elif request.user.is_author:
             self.fields = [
               'title','slug',
               'category','description',
-              'thumbnail','published',
+              'thumbnail','published','is_special',
             ]
         else:
             raise Http404('You can\'t see this page')
@@ -33,7 +34,8 @@ class FormValidMixin():
 class AuthorAccessMixin():
     def dispatch(self, request, pk, *args, **kwargs):
         article = get_object_or_404(Article, pk = pk)
-        if article.author == request.user and article.status == 'd' or request.user.is_superuser:
+        if article.author == request.user and article.status in ['d','b'] or request.user.is_superuser:
+            print(f'{article.status}---{article.author}')
             return super().dispatch(request, *args, **kwargs) 
         else:
             raise Http404('You can\'t see this page')
