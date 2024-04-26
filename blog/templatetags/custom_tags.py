@@ -10,7 +10,7 @@ def title():
 @register.inclusion_tag("blog/partials/category_nav.html")
 def category_nav():
     return {
-        "category" : Category.objects.filter(status = True)
+        "   " : Category.objects.filter(status = True)
     }
 
 @register.inclusion_tag("registration/partials/link.html")
