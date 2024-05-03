@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import User
+from django.contrib.auth.views import LoginView
 from .forms import ProfileForm
 from .mixins import ( 
     FieldsMixin,
     FormValidMixin,
     AuthorAccessMixin,
-    SuperuserAccessMixin
+    SuperuserAccessMixin,
+    AuthorsAccessMixin
 )
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -18,7 +20,7 @@ from django.views.generic import (
 )
 from blog.models import Article
 # Create your views here.
-class ArticleList(LoginRequiredMixin, ListView):
+class ArticleList(AuthorsAccessMixin, ListView):
     template_name = 'registration/home.html'
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -26,7 +28,7 @@ class ArticleList(LoginRequiredMixin, ListView):
         else:
             return Article.objects.filter(author = self.request.user)
         
-class ArticleCreate(LoginRequiredMixin, FieldsMixin, FormValidMixin, CreateView):
+class ArticleCreate(AuthorsAccessMixin, FieldsMixin, FormValidMixin, CreateView):
     model = Article
     template_name = 'registration/article_create_update.html'
 
@@ -54,3 +56,11 @@ class Profile(LoginRequiredMixin, UpdateView):
             'user' : self.request.user
         })
         return kwargs
+    
+class Login(LoginView):
+    def get_success_url(self):
+        user = self.request.user
+        if user.is_superuser or user.is_author:
+            return reverse_lazy('account:home')
+        else:
+            return reverse_lazy('account:profile')
