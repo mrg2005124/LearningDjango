@@ -23,7 +23,12 @@
                     {% for article in object_list %}
                         <div class="post-preview">
                             <a href="{% url 'blog:detail' article.slug %}">
-                                <h2 class="post-title">{{ article.title }}</h2>
+                                <h2 class="post-title">
+                                    {{ article.title }}
+                                    {% if article.is_special %}
+                                        <div style="display:inline-table;background-color: gold;border-radius: 20px; width: 40px;"><span>ویژه</span></div>
+                                    {% endif %}
+                                </h2>
                                 <h3 class="post-subtitle">{{ article.description|striptags|truncatewords:20 }}</h3>
                             </a>
                             <p class="post-meta">

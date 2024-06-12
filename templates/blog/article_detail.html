@@ -7,6 +7,9 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
                     <h1>{{ object.title }}</h1>
+                    {% if article.is_special %}
+                    <div style="display:inline-table;background-color: gold;border-radius: 20px; width: 40px;"><span>ویژه</span></div>
+                    {% endif %}
                     <time>{{ object.jpublished }}</time>
                 </div>
             </div>
@@ -21,7 +24,8 @@
                     {% if user.is_authenticated and user.is_special_user or user == object.author or user.is_superuser %}
                         {{ object.description|safe }}
                     {% else %}
-                        <p>این مقاله ویژه است و برای مشاهده آن باید <a href=""> اشتراک ویژه</a> تهیه کنید.</p>
+                        {{ article.description|striptags|truncatewords:20 }}
+                        <p class="alert alert-warning">این مقاله ویژه است و برای مشاهده آن باید <a class="alert-link" href=""> اشتراک ویژه</a> تهیه کنید.</p>
                     {% endif %}
                 {% else %}
                     {{ object.description|safe }}
