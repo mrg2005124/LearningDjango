@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent  # project files address 
 
 MEDIA_ROOT = (BASE_DIR) 
@@ -24,7 +25,7 @@ MEDIA_URL = '/media/'  # for show media
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$1b1c(9y@j(-b1ve$g846z4vf9aeloj^&n%l9q0qv8$cz&g)f_'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY','SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -145,4 +146,10 @@ LOGIN_REDIRECT_URL = 'account:home'
 LOGOUT_REDIRECT_URL = 'account:home'
 LOGIN_URL = 'login'
 AUTH_USER_MODEL = 'account.User' 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_PORT = config('EMAIL_PORT')
