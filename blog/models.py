@@ -29,6 +29,7 @@ class Category(models.Model):
         return self.title
     objects = CategoryManager()
     
+#  create database
 class Article(models.Model):
     STATUS_CHOICES = (
         ('d','پیش نویس'),
@@ -41,16 +42,20 @@ class Article(models.Model):
     slug = models.SlugField(max_length=100, verbose_name='ادرس')
     category = models.ManyToManyField(Category,verbose_name='دسته بندی', related_name ='articles')
     description = models.TextField(verbose_name='توضیحات')
-    thumbnail = models.ImageField(upload_to="image", verbose_name='تصویر')
+    thumbnail = models.ImageField(upload_to="image", verbose_name='تصویر')  # upload to : saved and upload location image
     published = models.DateTimeField(default=timezone.now, verbose_name='انتشار')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_special = models.BooleanField(default= True, verbose_name='مقاله ویژه')
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
+
+    # for persian admin panel
     class Meta:
         verbose_name = "مقاله"
         verbose_name_plural = "مقاله ها"
         ordering = ['-published']
+    
+    # show title in django panel
     def __str__(self):
         return self.title
     

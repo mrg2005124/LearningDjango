@@ -8,9 +8,10 @@ from account.mixins import AuthorAccessMixin
 from .models import Article, Category
 # Create your views here.
 # def index(request, page=1):
-#     contact_list = Article.objects.published()
+#     contact_list = Article.objects.published()  #get from database
 #     paginator = Paginator(contact_list, 1)
 #     articles = paginator.get_page(page)
+# for send variable to templates
 #     context = {
 #         "articles" : articles,
         

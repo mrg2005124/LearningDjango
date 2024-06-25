@@ -1,5 +1,6 @@
 from django import forms
 from .models import User
+from . import models
 
 
 class ProfileForm(forms.ModelForm):
@@ -10,12 +11,11 @@ class ProfileForm(forms.ModelForm):
         self.fields['username'].help_text = None
         if not user.is_superuser:
             self.fields['username'].disabled = True
-            self.fields['email'].disabled = True
             self.fields['special_user'].disabled = True
             self.fields['is_author'].disabled = True
 
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 
+        model = models.User
+        fields = ['username','first_name','email', 
               'last_name', 'special_user', 'is_author']

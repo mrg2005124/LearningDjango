@@ -5,19 +5,15 @@ from blog.models import Article
 
 class FieldsMixin():
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_superuser:
+        if request.user.is_author:
             self.fields = [
               'author','title','slug',
               'category','description',
               'thumbnail','published',
               'is_special','status',
             ]
-        elif request.user.is_author:
-            self.fields = [
-              'title','slug',
-              'category','description',
-              'thumbnail','published','is_special',
-            ]
+        elif request.user.is_superuser:
+            self.fields += 'author'
         else:
             raise Http404('You can\'t see this page')
         return super().dispatch(request, *args, **kwargs)
@@ -29,7 +25,8 @@ class FormValidMixin():
         else:
             self.obj = form.save(commit = False)
             self.obj.author = self.request.user
-            self.obj.status = 'd'
+            if not self.obj.status == 'd':
+                self.obj = 'i'
         return super().form_valid(form)
     
 class AuthorAccessMixin():
@@ -49,7 +46,7 @@ class AuthorsAccessMixin():
             else:
                 return redirect('account:profile')
         else:
-            return redirect('account:login')
+            return redirect('login')
 
 
 class SuperuserAccessMixin():

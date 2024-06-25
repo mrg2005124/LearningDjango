@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent  # project files address 
 
-MEDIA_ROOT = (BASE_DIR)
+MEDIA_ROOT = (BASE_DIR) 
 
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'  # for show media 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 # Quick-start development settings - unsuitable for production
@@ -41,9 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',
-    'account.apps.AccountConfig',
-    'extension',
+    'blog.apps.BlogConfig',  #for install new app
+    'account.apps.AccountConfig',  #for install new app
+    'extension',  #install extensions app 
     'widget_tweaks',
     "crispy_forms",
     "crispy_bootstrap5",
@@ -143,5 +143,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'account:home'
 LOGOUT_REDIRECT_URL = 'account:home'
-LOGIN_URL = 'account:login'
+LOGIN_URL = 'login'
 AUTH_USER_MODEL = 'account.User' 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

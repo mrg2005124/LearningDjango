@@ -29,6 +29,9 @@
                     {{form.special_user|as_crispy_field}}
                 </div>
                 <div class="col-6">
+                    <a href="{% url 'password_change' %}"></url><span><label>تغییر رمز</label></span></div>
+                </div>
+                <div class="col-6">
                     {{form.is_author|as_crispy_field}}
                 </div>
             </div>

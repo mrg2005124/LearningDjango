@@ -1,5 +1,8 @@
 from . import jalali
 from django.utils import timezone
+
+
+# convert eng digit to persian
 def persian_num(mystr):
     nums={
         '0':'۰',
@@ -16,9 +19,11 @@ def persian_num(mystr):
     for e, p in nums.items():
         mystr = mystr.replace(e,p)
     return mystr
+
+# convert to persian calendar
 def jalali_converter(time):
     time = timezone.localtime(time)
-    str_time = "{},{},{}".format(time.year, time.month, time.day)
+    str_time = (f"{time.year},{time.month},{time.day}")
     jmonths = [
         'فروردین',
         'اردیبهشت',

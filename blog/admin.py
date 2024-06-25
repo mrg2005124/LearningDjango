@@ -30,13 +30,14 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ['position']
 admin.site.register(Category, CategoryAdmin)
 
+# Admin panel table setting
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'thumbnail_tag', 'author','is_special','jpublished', 'status', 'str_category')
-    list_filter = ('title', 'published', 'status')
-    search_filter = ('title','description')
-    prepopulated_fields = {'slug' : ('title',)}
+    list_display = ('title', 'thumbnail_tag', 'author','is_special','jpublished', 'status', 'str_category')  #titles
+    list_filter = ('title', 'published', 'status')  #filters
+    search_filter = ('title','description')  #search in: 
+    prepopulated_fields = {'slug' : ('title',)}  #auto complete  field {myfield:(source)}
     ordering = ['-status','published']
     actions = [make_published,make_draft]
 
 
-admin.site.register(Article, ArticleAdmin)
+admin.site.register(Article, ArticleAdmin)  #send to admin panel (model name,table setting name)
