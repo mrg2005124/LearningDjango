@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     "crispy_forms",
     "crispy_bootstrap5",
-    'bootstrap4'
+    'bootstrap4',
+    'django_gravatar',
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -147,7 +148,7 @@ LOGOUT_REDIRECT_URL = 'account:home'
 LOGIN_URL = 'login'
 AUTH_USER_MODEL = 'account.User' 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
