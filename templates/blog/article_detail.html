@@ -1,4 +1,7 @@
 {% extends 'blog/base.html' %}
+{% load comment_tags %} 
+{% include_bootstrap %}
+
 {% block title %} | {{object.title}} {% endblock %}
 {% block body %}
 <header class="masthead" style="background-image: url('{{ object.thumbnail.url }}')">
@@ -6,7 +9,7 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1>{{ object.title }}</h1>
+                    <h1 class="myfont">{{ object.title }}</h1>
                     {% if article.is_special %}
                     <div style="display:inline-table;background-color: gold;border-radius: 20px; width: 40px;"><span>ویژه</span></div>
                     {% endif %}
@@ -21,17 +24,18 @@
         <div class="row gx-4 gx-lg-5 justify-content-center text-justify">
             <div class="col-md-10 col-lg-8 col-xl-7 ">
                 {% if object.is_special %}
-                    {% if user.is_authenticated and user.is_special_user or user == object.author or user.is_superuser %}
-                        {{ object.description|safe }}
-                    {% else %}
-                        {{ article.description|striptags|truncatewords:20 }}
-                        <p class="alert alert-warning">این مقاله ویژه است و برای مشاهده آن باید <a class="alert-link" href=""> اشتراک ویژه</a> تهیه کنید.</p>
-                    {% endif %}
+                {% if user.is_authenticated and user.is_special_user or user == object.author or user.is_superuser %}
+                {{ object.description|safe }}
                 {% else %}
-                    {{ object.description|safe }}
+                {{ article.description|striptags|truncatewords:20 }}
+                <p class="alert alert-warning">این مقاله ویژه است و برای مشاهده آن باید <a class="alert-link" href=""> اشتراک ویژه</a> تهیه کنید.</p>
+                {% endif %}
+                {% else %}
+                {{ object.description|safe }}
                 {% endif %}
             </div>
         </div>
     </div>
+    {% render_comments object request %}
 </article>
 {% endblock %}

@@ -12,5 +12,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('register/', Register.as_view(), name='register'),
-path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
+    path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
+    path('comment/',include('comment.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  #show media (debug mode)

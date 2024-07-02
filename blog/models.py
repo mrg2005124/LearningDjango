@@ -4,6 +4,8 @@ from account.models import User
 from django.utils import timezone
 from django.utils.html import format_html
 from extension.utils import jalali_converter
+from django.contrib.contenttypes.fields import GenericRelation
+from comment.models import Comment
 
 class ArticleManager(models.Manager):
     def published(self):
@@ -48,6 +50,7 @@ class Article(models.Model):
     updated = models.DateTimeField(auto_now=True)
     is_special = models.BooleanField(default= True, verbose_name='مقاله ویژه')
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
+    comments = GenericRelation(Comment)
 
     # for persian admin panel
     class Meta:
