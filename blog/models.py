@@ -32,6 +32,9 @@ class Category(models.Model):
     objects = CategoryManager()
     
 #  create database
+
+class IpAddress(models.Model):
+    ip = models.GenericIPAddressField(verbose_name='آدرس ایپی')
 class Article(models.Model):
     STATUS_CHOICES = (
         ('d','پیش نویس'),
@@ -51,6 +54,7 @@ class Article(models.Model):
     is_special = models.BooleanField(default= True, verbose_name='مقاله ویژه')
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
     comments = GenericRelation(Comment)
+    hit = models.ManyToManyField(IpAddress, through='ArticleHit',blank=True,verbose_name='بازدید')
 
     # for persian admin panel
     class Meta:
@@ -79,3 +83,8 @@ class Article(models.Model):
         return ", ".join([category.title for category in self.category_published()])
     str_category.short_description = 'دسته بندی'
     objects = ArticleManager()
+
+class ArticleHit(models.Model):
+    article = models.ForeignKey(Article,on_delete= models.CASCADE)
+    ip = models.ForeignKey(IpAddress,on_delete= models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)

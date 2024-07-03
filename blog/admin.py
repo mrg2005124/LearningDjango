@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article,Category
+from .models import Article,Category,IpAddress
 # Register your models here.
 
 admin.site.site_header = 'وبلاگ جنگویی من'
@@ -41,3 +41,4 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Article, ArticleAdmin)  #send to admin panel (model name,table setting name)
+admin.site.register(IpAddress)  #send to admin panel (model name,table setting name)
