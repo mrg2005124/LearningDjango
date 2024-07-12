@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator
 from account.mixins import AuthorAccessMixin
 from .models import Article, Category
+from django.db.models import Q
 # Create your views here.
 # def index(request, page=1):
 #     contact_list = Article.objects.published()  #get from database
@@ -77,4 +78,16 @@ class AuthorList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['author'] = author
+        return context
+    
+class SearchList(ListView):
+    paginate_by = 1
+    template_name = 'blog/search.html'
+    def get_queryset(self):
+        search = self.request.GET.get('q')
+        return Article.objects.filter(Q(description__icontains=search) | Q(title__icontains=search))
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search'] = self.request.GET.get('q')
         return context

@@ -1,0 +1,8 @@
+<div class="top_articles">
+    <h4>{{title}}</h4>
+    {% for article in articles %}
+        <div>
+            <a href="{% url 'blog:detail' article.slug %}">{{ article.title }}</a>
+        </div>
+    {% endfor %}
+</div>

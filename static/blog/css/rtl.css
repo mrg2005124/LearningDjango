@@ -79,3 +79,12 @@ body {
       display:block !important;
   }
   
+.top_article{
+  border: solid 1px #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  left: 20px;
+  top: 0;
+  box-shadow: 5px 5px #89898998;
+}

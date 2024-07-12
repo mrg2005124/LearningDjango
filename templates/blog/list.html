@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load custom_tags %}
 {% load static %}
 {% block body %}
 <header class="masthead" style="background-image: url('{% static 'blog/assets/img/home-back.jpg' %}')">
@@ -19,6 +20,8 @@
                     {% block header %}
                     
                     {% endblock %}
+                    {% popular_articles %}
+                    {% hot_articles %}
                     <!-- Post preview-->
                     {% for article in object_list %}
                         <div class="post-preview">
@@ -43,6 +46,8 @@
                             <a href="{% url 'blog:category' cat.slug %}">|{{ cat.title }}</a>
                         {% endfor %}
                     </div>
+                    {% empty %}
+                        <p>محتوایی برای نمایش وجود ندارد.</p>
                     {% endfor %}
                     <!-- Pager-->
                     {% if page_obj.has_previous %}
